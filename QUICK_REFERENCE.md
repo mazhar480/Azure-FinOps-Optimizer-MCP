@@ -14,7 +14,7 @@ gh repo create azure-finops-elite --public --source=. --remote=origin --push
 # Or manually:
 # 1. Create repo on github.com/new
 # 2. Then run:
-git remote add origin https://github.com/YOUR_USERNAME/azure-finops-elite.git
+git remote add origin https://github.com/mazhar480/azure-finops-elite.git
 git branch -M main
 git push -u origin main
 ```
@@ -22,7 +22,7 @@ git push -u origin main
 ## GitHub Sponsors Setup
 
 1. **Enable Sponsors**: https://github.com/sponsors
-2. **Edit FUNDING.yml**: Replace `YOUR_GITHUB_USERNAME` with your username
+2. **Edit FUNDING.yml**: Replace `mazhar480` with your username
 3. **Create Tiers**:
    - $5/month - Bronze
    - $25/month - Silver
@@ -45,8 +45,8 @@ git push origin v1.0.0
 ## Files to Update
 
 Before publishing, replace in all files:
-- `YOUR_USERNAME` → your GitHub username
-- `YOUR_GITHUB_USERNAME` → your GitHub username
+- `mazhar480` → your GitHub username
+- `mazhar480` → your GitHub username
 
 ## Checklist
 

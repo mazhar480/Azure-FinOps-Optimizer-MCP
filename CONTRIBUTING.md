@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Azure FinOps Elite! 🎉
 
 ### Reporting Bugs
 
-1. Check if the bug has already been reported in [Issues](https://github.com/YOUR_USERNAME/azure-finops-elite/issues)
+1. Check if the bug has already been reported in [Issues](https://github.com/mazhar480/azure-finops-elite/issues)
 2. If not, create a new issue with:
    - Clear title and description
    - Steps to reproduce
@@ -16,7 +16,7 @@ Thank you for your interest in contributing to Azure FinOps Elite! 🎉
 
 ### Suggesting Features
 
-1. Check [Issues](https://github.com/YOUR_USERNAME/azure-finops-elite/issues) for existing feature requests
+1. Check [Issues](https://github.com/mazhar480/azure-finops-elite/issues) for existing feature requests
 2. Create a new issue with:
    - Clear use case description
    - Expected behavior
@@ -146,19 +146,19 @@ Current focus areas:
 1. **Performance**: Optimize API calls and caching
 2. **Testing**: Increase test coverage
 3. **Documentation**: Improve guides and examples
-4. **Features**: See [Issues](https://github.com/YOUR_USERNAME/azure-finops-elite/issues) for planned features
+4. **Features**: See [Issues](https://github.com/mazhar480/azure-finops-elite/issues) for planned features
 
 ## 💰 Financial Contributions
 
 If you can't contribute code but want to support the project:
 
-- [GitHub Sponsors](https://github.com/sponsors/YOUR_USERNAME)
+- [GitHub Sponsors](https://github.com/sponsors/mazhar480)
 - Star the repository ⭐
 - Share with others who might benefit
 
 ## 📞 Questions?
 
-- Open a [Discussion](https://github.com/YOUR_USERNAME/azure-finops-elite/discussions)
+- Open a [Discussion](https://github.com/mazhar480/azure-finops-elite/discussions)
 - Comment on relevant issues
 - Check existing documentation
 

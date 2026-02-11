@@ -19,7 +19,7 @@ If you find Azure FinOps Elite valuable, please **star this repository** to help
 Azure FinOps Elite is **free and open-source**. If it saves you money or time, please consider:
 
 - ⭐ **Starring** this repository
-- 💰 **[Sponsoring via GitHub Sponsors](https://github.com/sponsors/YOUR_USERNAME)**
+- 💰 **[Sponsoring via GitHub Sponsors](https://github.com/sponsors/mazhar480)**
 - 🐛 **Reporting bugs** and suggesting features
 - 📝 **Contributing** code or documentation
 
@@ -33,7 +33,7 @@ Your support helps maintain and improve this project!
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/azure-finops-elite.git
+git clone https://github.com/mazhar480/azure-finops-elite.git
 cd azure-finops-elite
 
 # Install dependencies
@@ -220,9 +220,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 💬 Support
 
 - 📖 **Documentation**: Check the [docs](README.md)
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/YOUR_USERNAME/azure-finops-elite/issues)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/YOUR_USERNAME/azure-finops-elite/issues)
-- 💰 **Sponsorship**: [GitHub Sponsors](https://github.com/sponsors/YOUR_USERNAME)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/mazhar480/azure-finops-elite/issues)
+- 💡 **Feature Requests**: [Open an issue](https://github.com/mazhar480/azure-finops-elite/issues)
+- 💰 **Sponsorship**: [GitHub Sponsors](https://github.com/sponsors/mazhar480)
 
 ---
 
@@ -247,4 +247,4 @@ Built with:
 
 **Made with ❤️ for the FinOps community**
 
-**[⭐ Star this repo](https://github.com/YOUR_USERNAME/azure-finops-elite)** | **[💰 Sponsor](https://github.com/sponsors/YOUR_USERNAME)** | **[📖 Docs](README.md)**
+**[⭐ Star this repo](https://github.com/mazhar480/azure-finops-elite)** | **[💰 Sponsor](https://github.com/sponsors/mazhar480)** | **[📖 Docs](README.md)**
