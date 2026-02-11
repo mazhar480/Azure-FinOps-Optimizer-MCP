@@ -1,0 +1,82 @@
+{
+    "name": "FinOps Auditor",
+    "description": "Least-privilege RBAC role for Azure FinOps Elite MCP Server",
+    "assignableScopes": [
+        "/subscriptions/{subscription-id}"
+    ],
+    "permissions": [
+        {
+            "actions": [
+                "Microsoft.Consumption/*/read",
+                "Microsoft.CostManagement/*/read",
+                "Microsoft.Advisor/*/read",
+                "Microsoft.Resources/subscriptions/read",
+                "Microsoft.Resources/subscriptions/resourceGroups/read",
+                "Microsoft.Compute/disks/read",
+                "Microsoft.Compute/virtualMachines/read",
+                "Microsoft.Network/publicIPAddresses/read",
+                "Microsoft.Storage/storageAccounts/read"
+            ],
+            "notActions": [],
+            "dataActions": [],
+            "notDataActions": []
+        }
+    ],
+    "requiredBuiltInRoles": [
+        {
+            "roleName": "Cost Management Reader",
+            "roleId": "72fafb9e-0641-4937-9268-a91bfd8191a3",
+            "scope": "Subscription",
+            "description": "Required for querying cost data and budgets"
+        },
+        {
+            "roleName": "Reader",
+            "roleId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+            "scope": "Subscription",
+            "description": "Required for reading resource metadata"
+        },
+        {
+            "roleName": "Advisor Reader",
+            "roleId": "c9c4f5a5-8b5a-4b5a-8b5a-4b5a8b5a4b5a",
+            "scope": "Subscription",
+            "description": "Required for reading Azure Advisor recommendations"
+        }
+    ],
+    "certificateRequirements": {
+        "keyType": "RSA",
+        "keySize": 2048,
+        "validityPeriod": "1-2 years",
+        "storage": "Azure Key Vault or HSM",
+        "rotation": "Recommended every 12 months"
+    },
+    "complianceFrameworks": {
+        "iso27001": {
+            "controls": [
+                "A.9.1.1 - Access control policy",
+                "A.9.2.1 - User registration and de-registration",
+                "A.9.4.1 - Information access restriction"
+            ]
+        },
+        "niaQatar": {
+            "requirements": [
+                "Least-privilege access",
+                "Certificate-based authentication",
+                "Audit logging enabled"
+            ]
+        },
+        "zeroTrust": {
+            "principles": [
+                "Verify explicitly (certificate authentication)",
+                "Use least privilege access (read-only permissions)",
+                "Assume breach (audit all access)"
+            ]
+        }
+    },
+    "setupInstructions": {
+        "step1": "Create Service Principal: az ad sp create-for-rbac --name azure-finops-elite",
+        "step2": "Generate certificate: openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365",
+        "step3": "Upload certificate to Service Principal: az ad sp credential reset --name azure-finops-elite --cert @cert.pem",
+        "step4": "Assign built-in roles: az role assignment create --assignee <sp-id> --role 'Cost Management Reader' --scope /subscriptions/<sub-id>",
+        "step5": "Configure .env file with AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CERTIFICATE_PATH"
+    }
+}

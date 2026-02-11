@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure FinOps Elite - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .results pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .metric-value {
+            color: #333;
+            font-weight: 700;
+        }
+
+        .reports-list {
+            list-style: none;
+        }
+
+        .reports-list li {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reports-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .reports-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Azure FinOps Elite</h1>
+            <p>Enterprise Cost Optimization & Governance Dashboard</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('config')">⚙️ Configuration</button>
+            <button class="tab-button" onclick="showTab('anomalies')">🔍 Anomaly Detection</button>
+            <button class="tab-button" onclick="showTab('csp')">🏢 CSP Audit</button>
+            <button class="tab-button" onclick="showTab('governance')">🛡️ Governance</button>
+            <button class="tab-button" onclick="showTab('executive')">📊 Executive Summary</button>
+            <button class="tab-button" onclick="showTab('reports')">📁 Reports</button>
+        </div>
+
+        <!-- Configuration Tab -->
+        <div id="config" class="tab-content active">
+            <h2>⚙️ Configuration</h2>
+            <div id="config-alert"></div>
+            <form id="config-form">
+                <div class="form-group">
+                    <label>Azure Tenant ID</label>
+                    <input type="text" id="tenant-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label>Azure Client ID</label>
+                    <input type="text" id="client-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label>Azure Subscription IDs (comma-separated)</label>
+                    <input type="text" id="subscription-ids" placeholder="sub-id-1,sub-id-2">
+                </div>
+                <div class="form-group">
+                    <label>Anomaly Threshold</label>
+                    <input type="number" id="threshold" step="0.1" value="1.5">
+                </div>
+                <div class="form-group">
+                    <label>Log Level</label>
+                    <select id="log-level">
+                        <option value="DEBUG">DEBUG</option>
+                        <option value="INFO" selected>INFO</option>
+                        <option value="WARNING">WARNING</option>
+                        <option value="ERROR">ERROR</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">💾 Save Configuration</button>
+            </form>
+        </div>
+
+        <!-- Anomaly Detection Tab -->
+        <div id="anomalies" class="tab-content">
+            <h2>🔍 Anomaly Detection</h2>
+            <div class="form-group">
+                <label>Detection Threshold</label>
+                <input type="number" id="anomaly-threshold" step="0.1" value="1.5">
+            </div>
+            <button onclick="runAnomalyDetection()" class="btn">🔍 Detect Anomalies</button>
+            <div id="anomaly-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Analyzing cost data...</p>
+            </div>
+            <div id="anomaly-results" class="results"></div>
+        </div>
+
+        <!-- CSP Audit Tab -->
+        <div id="csp" class="tab-content">
+            <h2>🏢 CSP Tenant Audit</h2>
+            <p>Identify unattached disks and idle public IPs across subscriptions.</p>
+            <button onclick="runCSPAudit()" class="btn">🏢 Run Audit</button>
+            <div id="csp-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Auditing resources...</p>
+            </div>
+            <div id="csp-results" class="results"></div>
+        </div>
+
+        <!-- Governance Tab -->
+        <div id="governance" class="tab-content">
+            <h2>🛡️ Governance Recommendations</h2>
+            <div class="form-group">
+                <label>Minimum Risk Score (1-10)</label>
+                <input type="number" id="min-risk-score" min="1" max="10" value="5">
+            </div>
+            <button onclick="runGovernance()" class="btn">🛡️ Get Recommendations</button>
+            <div id="governance-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Fetching recommendations...</p>
+            </div>
+            <div id="governance-results" class="results"></div>
+        </div>
+
+        <!-- Executive Summary Tab -->
+        <div id="executive" class="tab-content">
+            <h2>📊 Executive Summary</h2>
+            <div class="form-group">
+                <label>Reporting Period</label>
+                <select id="report-period">
+                    <option value="monthly">Monthly</option>
+                    <option value="annual">Annual</option>
+                </select>
+            </div>
+            <button onclick="generateExecutiveSummary()" class="btn">📊 Generate Report</button>
+            <div id="executive-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Generating executive summary...</p>
+            </div>
+            <div id="executive-results" class="results"></div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="reports" class="tab-content">
+            <h2>📁 Generated Reports</h2>
+            <button onclick="loadReports()" class="btn">🔄 Refresh</button>
+            <div id="reports-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Loading reports...</p>
+            </div>
+            <ul id="reports-list" class="reports-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load reports when reports tab is shown
+            if (tabName === 'reports') {
+                loadReports();
+            }
+        }
+
+        // Load configuration
+        async function loadConfig() {
+            try {
+                const response = await fetch('/api/config');
+                const config = await response.json();
+                
+                document.getElementById('tenant-id').value = config.AZURE_TENANT_ID || '';
+                document.getElementById('client-id').value = config.AZURE_CLIENT_ID || '';
+                document.getElementById('subscription-ids').value = config.AZURE_SUBSCRIPTION_IDS || '';
+                document.getElementById('threshold').value = config.ANOMALY_THRESHOLD || '1.5';
+                document.getElementById('log-level').value = config.LOG_LEVEL || 'INFO';
+            } catch (error) {
+                console.error('Error loading config:', error);
+            }
+        }
+
+        // Save configuration
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const config = {
+                AZURE_TENANT_ID: document.getElementById('tenant-id').value,
+                AZURE_CLIENT_ID: document.getElementById('client-id').value,
+                AZURE_SUBSCRIPTION_IDS: document.getElementById('subscription-ids').value,
+                ANOMALY_THRESHOLD: document.getElementById('threshold').value,
+                LOG_LEVEL: document.getElementById('log-level').value
+            };
+
+            try {
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+
+                const result = await response.json();
+                
+                document.getElementById('config-alert').innerHTML = 
+                    '<div class="alert alert-success">✅ Configuration saved successfully!</div>';
+                
+                setTimeout(() => {
+                    document.getElementById('config-alert').innerHTML = '';
+                }, 3000);
+            } catch (error) {
+                document.getElementById('config-alert').innerHTML = 
+                    '<div class="alert alert-error">❌ Error saving configuration: ' + error.message + '</div>';
+            }
+        });
+
+        // Run anomaly detection
+        async function runAnomalyDetection() {
+            const threshold = document.getElementById('anomaly-threshold').value;
+            const loading = document.getElementById('anomaly-loading');
+            const results = document.getElementById('anomaly-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/anomalies', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ threshold: parseFloat(threshold) })
+                });
+
+                const data = await response.json();
+                results.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                results.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Run CSP audit
+        async function runCSPAudit() {
+            const loading = document.getElementById('csp-loading');
+            const results = document.getElementById('csp-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/csp-audit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+
+                const data = await response.json();
+                results.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                results.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Run governance
+        async function runGovernance() {
+            const minRiskScore = document.getElementById('min-risk-score').value;
+            const loading = document.getElementById('governance-loading');
+            const results = document.getElementById('governance-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/governance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ min_risk_score: parseInt(minRiskScore) })
+                });
+
+                const data = await response.json();
+                results.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                results.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Generate executive summary
+        async function generateExecutiveSummary() {
+            const period = document.getElementById('report-period').value;
+            const loading = document.getElementById('executive-loading');
+            const results = document.getElementById('executive-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/executive-summary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ period })
+                });
+
+                const data = await response.json();
+                
+                if (data.markdown_report) {
+                    results.innerHTML = '<h3>Report Generated!</h3>' +
+                        '<p>File: <a href="/api/reports/' + data.report_file + '" download>' + data.report_file + '</a></p>' +
+                        '<h4>Summary Metrics:</h4>' +
+                        '<pre>' + JSON.stringify(data.summary_metrics, null, 2) + '</pre>';
+                } else {
+                    results.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                }
+            } catch (error) {
+                results.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Load reports
+        async function loadReports() {
+            const loading = document.getElementById('reports-loading');
+            const list = document.getElementById('reports-list');
+
+            loading.classList.add('active');
+            list.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/reports');
+                const reports = await response.json();
+
+                if (reports.length === 0) {
+                    list.innerHTML = '<li>No reports generated yet.</li>';
+                } else {
+                    reports.forEach(report => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <div>
+                                <strong>${report.filename}</strong><br>
+                                <small>Created: ${new Date(report.created).toLocaleString()}</small>
+                            </div>
+                            <a href="/api/reports/${report.filename}" download>📥 Download</a>
+                        `;
+                        list.appendChild(li);
+                    });
+                }
+            } catch (error) {
+                list.innerHTML = '<li class="alert alert-error">Error loading reports: ' + error.message + '</li>';
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Load config on page load
+        loadConfig();
+    </script>
+</body>
+</html>
