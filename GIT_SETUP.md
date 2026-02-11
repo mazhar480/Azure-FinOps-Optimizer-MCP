@@ -58,7 +58,7 @@ gh repo create azure-finops-elite --public --source=. --remote=origin --push
 
 ```powershell
 # Add remote (if not using GitHub CLI)
-git remote add origin https://github.com/YOUR_USERNAME/azure-finops-elite.git
+git remote add origin https://github.com/mazhar480/azure-finops-elite.git
 
 # Push to GitHub
 git branch -M main
@@ -113,7 +113,7 @@ git push -u origin main
 notepad .github\FUNDING.yml
 ```
 
-Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username:
+Replace `mazhar480` with your actual GitHub username:
 
 ```yaml
 github: your-actual-username
@@ -129,11 +129,11 @@ git push
 
 ### Step 4: Add Sponsor Button to README
 
-The README.md already includes sponsor links. Just update `YOUR_USERNAME` with your actual GitHub username:
+The README.md already includes sponsor links. Just update `mazhar480` with your actual GitHub username:
 
 ```powershell
 # Find and replace in README.md
-# YOUR_USERNAME -> your-actual-username
+# mazhar480 -> your-actual-username
 ```
 
 ---
@@ -214,7 +214,7 @@ Azure FinOps Elite v1.0.0 is now available!
 See [README.md](README.md) for installation and usage instructions.
 
 ### 💖 Support This Project
-If you find this valuable, please consider [sponsoring](https://github.com/sponsors/YOUR_USERNAME)!
+If you find this valuable, please consider [sponsoring](https://github.com/sponsors/mazhar480)!
 ```
 
 ---
@@ -293,8 +293,8 @@ Track your repository's success:
 
 Before publishing:
 
-- [ ] Update all `YOUR_USERNAME` placeholders in files
-- [ ] Update all `YOUR_GITHUB_USERNAME` in FUNDING.yml
+- [ ] Update all `mazhar480` placeholders in files
+- [ ] Update all `mazhar480` in FUNDING.yml
 - [ ] Verify .gitignore excludes sensitive files
 - [ ] Test all documentation links
 - [ ] Create initial release (v1.0.0)
